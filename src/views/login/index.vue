@@ -32,7 +32,7 @@
           :type="passwordType"
           placeholder="Password"
           name="password"
-          tabindex="2"
+          tabindex="3"
           auto-complete="on"
           maxlength="20"
           @keyup.enter.native="handleLogin"

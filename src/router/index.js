@@ -67,29 +67,34 @@ export const constantRoutes = [
   },
 
   {
-    path: '/user',
+    path: '/center',
     component: Layout,
-    name: 'User',
-    meta: { title: 'User', icon: 'el-icon-s-help' },
+    redirect: '/#/user',
+    name: 'UserCenter',
+    meta: {
+      title: 'UserCenter',
+      icon: 'nested'
+    },
     children: [
       {
         path: 'user',
-        name: 'User',
-        component: () => import('@/views/usercontrol/index'),
-        meta: { title: 'User', icon: 'table' }
+        component: () => import('@/views/usercontrol/index'), // Parent router-view
+        name: 'UserControl',
+        meta: { title: 'UserControl' }
+      },
+      {
+        path: 'subsystem',
+        component: () => import('@/views/subsystem/index'),
+        name: 'SubSystem',
+        meta: { title: 'SubSystemControl' }
+      },
+      {
+        path: 'source',
+        component: () => import('@/views/sourcecontrol/index'),
+        name: 'Source',
+        meta: { title: 'SourceControl' }
       }
     ]
-  },
-
-  {
-    path: '/subsystem',
-    component: Layout,
-    children: [{
-      path: 'subsystem',
-      name: 'Subsystem',
-      component: () => import('@/views/subsystem/index'),
-      meta: { title: 'Subsystem', icon: 'chart' }
-    }]
   },
 
   {
@@ -191,19 +196,8 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+        path: 'https://blog.csdn.net/Weexiao?type=blog',
         meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link1',
-    component: Layout,
-    children: [
-      {
-        path: 'https://www.bilibili.com/',
-        meta: { title: 'bilibili', icon: 'link' }
       }
     ]
   },

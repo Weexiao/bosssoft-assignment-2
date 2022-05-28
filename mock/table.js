@@ -3,15 +3,15 @@ const Mock = require('mockjs')
 const data = Mock.mock({
   'items|30': [{
     id: '@id',
-    name: '@cname',
+    name: '@name',
     department: '@department',
     age: '@integer(18, 60)',
-    address: '@county(true)',
+    address: '@region',
     date: '@date',
     salary: '@float(1000, 10000, 2, 2)',
     position: '@position',
     title: '@sentence(10, 20)',
-    'status|1': ['published', 'draft', 'deleted'],
+    'status|1': ['normal', 'admin', 'deleted'],
     display_time: '@datetime',
     pageviews: '@integer(300, 5000)'
   }]
