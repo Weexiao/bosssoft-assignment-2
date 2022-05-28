@@ -48,6 +48,7 @@
           <span>Forgot your password?</span>
           <el-button type="text" @click.native.prevent="showForgotPwd">Click here</el-button>
         </span>
+        <br>
         <span>
           <span>Don't have an account?</span>
           <el-button type="text" @click.native.prevent="showRegister">Click here</el-button>
