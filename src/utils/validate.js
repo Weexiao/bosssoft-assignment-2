@@ -25,7 +25,7 @@ export function validUsername(str) {
  * @returns {Boolean}
  */
 export function validPassword(str) {
-  const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/
+  const pattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,18}$/
   return pattern.test(str)
 }
 
@@ -51,18 +51,10 @@ export function validEmail(str) {
  * @param {string} str
  * @returns {Boolean}
  */
-export function validMobilePhoneNum(str) {
-  const pattern = /0?(13|14|15|18)[0-9]{9}/
-  return pattern.test(str)
-}
-
-/**
- * @param {string} str
- * @returns {Boolean}
- */
-export function validTelephoneNum(str) {
-  const pattern = /[0-9-()（）]{7,18}/
-  return pattern.test(str)
+export function validPhoneNum(str) {
+  const pattern1 = /0?(13|14|15|18)[0-9]{9}/
+  const pattern2 = /[0-9-()（）]{7,18}/
+  return pattern1.test(str) || pattern2.test(str)
 }
 
 /**

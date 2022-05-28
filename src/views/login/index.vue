@@ -34,6 +34,7 @@
           name="password"
           tabindex="2"
           auto-complete="on"
+          maxlength="20"
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
@@ -75,7 +76,7 @@ export default {
     }
     const validatePassword = (rule, value, callback) => {
       if (!validPassword(value)) {
-        callback(new Error('Password must contain at least 6 characters and no more than 18 characters, including letters and numbers'))
+        callback(new Error('Password must contain at least numbers and English, with a length of 8-18'))
       } else {
         callback()
       }

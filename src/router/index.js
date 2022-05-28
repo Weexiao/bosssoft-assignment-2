@@ -67,13 +67,28 @@ export const constantRoutes = [
   },
 
   {
-    path: '/chart',
+    path: '/user',
+    component: Layout,
+    name: 'User',
+    meta: { title: 'User', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'user',
+        name: 'User',
+        component: () => import('@/views/usercontrol/index'),
+        meta: { title: 'User', icon: 'table' }
+      }
+    ]
+  },
+
+  {
+    path: '/subsystem',
     component: Layout,
     children: [{
-      path: 'chart',
-      name: 'Chart',
-      component: () => import('@/views/charts/keyboard'),
-      meta: { title: 'Chart', icon: 'chart' }
+      path: 'subsystem',
+      name: 'Subsystem',
+      component: () => import('@/views/subsystem/index'),
+      meta: { title: 'Subsystem', icon: 'chart' }
     }]
   },
 

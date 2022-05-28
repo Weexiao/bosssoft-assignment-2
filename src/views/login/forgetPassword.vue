@@ -22,22 +22,6 @@
         />
       </el-form-item>
 
-      <el-form-item prop="code">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          ref="code"
-          v-model="loginForm.code"
-          placeholder="Code"
-          name="code"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-          maxlength="6"
-        />
-      </el-form-item>
-
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -57,7 +41,7 @@
         </span>
       </el-form-item>
 
-      <el-form-item prop="password">
+      <el-form-item prop="confirmpassword">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -76,6 +60,14 @@
         </span>
       </el-form-item>
 
+      <div>
+        <Vcode
+          :show="loginForm.showVcode"
+          @success="success"
+          @close="close"
+        />
+      </div>
+
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleSubmit">Submit</el-button>
 
       <div class="tips">
@@ -89,28 +81,34 @@
 </template>
 
 <script>
-import { validMobilePhoneNum } from '@/utils/validate'
-import { validTelephoneNum } from '@/utils/validate'
+import { validPhoneNum } from '@/utils/validate'
 import { validPassword } from '@/utils/validate'
+import Vcode from 'vue-puzzle-vcode'
 
 export default {
   name: 'ForgetPassword',
+  components: {
+    Vcode
+  },
   data() {
     const validatePhone = (rule, value, callback) => {
-      if (!validTelephoneNum(value) || !validMobilePhoneNum(value)) {
+      if (!validPhoneNum(value)) {
         callback(new Error('Please enter the correct phone number'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
+      console.log(value)
       if (!validPassword(value)) {
-        callback(new Error('Password must contain at least 6 characters and no more than 18 characters, including letters and numbers'))
+        callback(new Error('Password must contain at least numbers and English, with a length of 8-18'))
       } else {
         callback()
       }
     }
     const validateConfirmPassword = (rule, value, callback) => {
+      console.log(value)
+      console.log(this.loginForm.password)
       if (value !== this.loginForm.password) {
         callback(new Error('The two passwords that you entered do not match'))
       } else {
@@ -120,7 +118,7 @@ export default {
     return {
       loginForm: {
         phone: '',
-        code: '',
+        showVcode: false, // 是否显示验证码
         password: '',
         confirmPassword: ''
       },
@@ -128,10 +126,6 @@ export default {
         phone: [
           { required: true, message: 'Please enter your phone number', trigger: 'blur' },
           { validator: validatePhone, trigger: 'blur' }
-        ],
-        code: [
-          { required: true, message: 'Please enter your code', trigger: 'blur' },
-          { validator: this.validateCode, trigger: 'blur' }
         ],
         password: [
           { required: true, message: 'Please enter your new password', trigger: 'blur' },
@@ -162,6 +156,12 @@ export default {
       this.$router.push({ path: '/login' })
     },
     handleSubmit() {
+      if (this.loginForm.phone !== '' && this.loginForm.password !== '' && this.loginForm.confirmPassword !== '') {
+        this.loading = true
+      }
+    },
+    success(msg) {
+      this.loginForm.showVcode = false // 隐藏验证码
       // this.$refs.loginForm.validate((valid) => {
       //   if (valid) {
       //     this.loading = true
@@ -186,13 +186,10 @@ export default {
         type: 'success',
         message: 'Reset password successfully'
       })
+      this.$router.push({ path: '/login' })
     },
-    validateCode(rule, value, callback) {
-      if (value !== this.loginForm.code) {
-        callback(new Error('The verification code is incorrect'))
-      } else {
-        callback()
-      }
+    close() {
+      this.loginForm.showVcode = false // 隐藏验证码
     }
   }
 }
@@ -242,8 +239,8 @@ input {
 }
 </style>
 
-  <style lang="scss" scoped>
-                     $bg:#2d3a4b;
+<style lang="scss" scoped>
+$bg:#2d3a4b;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 
@@ -253,55 +250,55 @@ $light_gray:#eee;
   background-color: $bg;
   overflow: hidden;
 
-.login-form {
-  position: relative;
-  width: 520px;
-  max-width: 100%;
-  padding: 160px 35px 0;
-  margin: 0 auto;
-  overflow: hidden;
-}
+  .login-form {
+    position: relative;
+    width: 520px;
+    max-width: 100%;
+    padding: 160px 35px 0;
+    margin: 0 auto;
+    overflow: hidden;
+  }
 
-.tips {
-  font-size: 14px;
-  color: #fff;
-  margin-bottom: 10px;
+  .tips {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 10px;
 
-span {
-&:first-of-type {
-   margin-right: 16px;
- }
-}
-}
+    span {
+      &:first-of-type {
+        margin-right: 16px;
+      }
+    }
+  }
 
-.svg-container {
-  padding: 6px 5px 6px 15px;
-  color: $dark_gray;
-  vertical-align: middle;
-  width: 30px;
-  display: inline-block;
-}
+  .svg-container {
+    padding: 6px 5px 6px 15px;
+    color: $dark_gray;
+    vertical-align: middle;
+    width: 30px;
+    display: inline-block;
+  }
 
-.title-container {
-  position: relative;
+  .title-container {
+    position: relative;
 
-.title {
-  font-size: 26px;
-  color: $light_gray;
-  margin: 0px auto 40px auto;
-  text-align: center;
-  font-weight: bold;
-}
-}
+    .title {
+      font-size: 26px;
+      color: $light_gray;
+      margin: 0px auto 40px auto;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
 
-.show-pwd {
-  position: absolute;
-  right: 10px;
-  top: 7px;
-  font-size: 16px;
-  color: $dark_gray;
-  cursor: pointer;
-  user-select: none;
-}
+  .show-pwd {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    font-size: 16px;
+    color: $dark_gray;
+    cursor: pointer;
+    user-select: none;
+  }
 }
 </style>

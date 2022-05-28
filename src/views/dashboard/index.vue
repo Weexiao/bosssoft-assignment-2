@@ -1,7 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
-    <h1>  {{ name }} </h1>
+    <h1> 主界面 但还没想好写什么</h1>
   </div>
 </template>
 
