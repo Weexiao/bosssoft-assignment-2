@@ -38,6 +38,12 @@ export const constantRoutes = [
   },
 
   {
+    path: '/forgot-password',
+    component: () => import('@/views/login/forgetPassword'),
+    hidden: true
+  },
+
+  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
@@ -52,6 +58,17 @@ export const constantRoutes = [
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
+    }]
+  },
+
+  {
+    path: '/chart',
+    component: Layout,
+    children: [{
+      path: 'chart',
+      name: 'Chart',
+      component: () => import('@/views/charts/keyboard'),
+      meta: { title: 'Chart', icon: 'chart' }
     }]
   },
 
@@ -156,6 +173,17 @@ export const constantRoutes = [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
         meta: { title: 'External Link', icon: 'link' }
+      }
+    ]
+  },
+
+  {
+    path: 'external-link1',
+    component: Layout,
+    children: [
+      {
+        path: 'https://www.bilibili.com/',
+        meta: { title: 'bilibili', icon: 'link' }
       }
     ]
   },
