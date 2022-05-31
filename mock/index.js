@@ -2,13 +2,18 @@ const Mock = require('mockjs')
 const { param2Obj } = require('./utils')
 
 const user = require('./user')
+// const role = require('./role')
 const table = require('./table')
 const subsystem = require('./subsystem')
+const roles = require('./myroles')
+const group = require('./group')
 
 const mocks = [
   ...user,
   ...table,
-  ...subsystem
+  ...subsystem,
+  ...roles,
+  ...group
 ]
 
 // for front mock

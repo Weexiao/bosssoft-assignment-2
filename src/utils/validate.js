@@ -154,3 +154,12 @@ export function validNegativeInteger(str) {
   const pattern = /^-[1-9]\d*$/
   return pattern.test(str)
 }
+
+/**
+ * 检验是否相同
+ * @param {string} str
+ * @returns {Boolean}
+ */
+export function validEqual(str1, str2) {
+  return str1 === str2
+}

@@ -41,18 +41,18 @@
         </span>
       </el-form-item>
 
-      <el-form-item prop="confirmpassword">
+      <el-form-item prop="confirmPassword">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
         <el-input
           :key="passwordType"
-          ref="password"
+          ref="confirmPassword"
           v-model="loginForm.confirmPassword"
           :type="passwordType"
           placeholder="Please enter your password again"
-          name="password"
-          tabindex="2"
+          name="confirmPassword"
+          tabindex="3"
           auto-complete="on"
         />
         <span class="show-pwd" @click="showPwd">
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { validPhoneNum } from '@/utils/validate'
+import { validEqual, validPhoneNum } from '@/utils/validate'
 import { validPassword } from '@/utils/validate'
 import Vcode from 'vue-puzzle-vcode'
 
@@ -99,7 +99,6 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      console.log(value)
       if (!validPassword(value)) {
         callback(new Error('Password must contain at least numbers and English, with a length of 8-18'))
       } else {
@@ -107,8 +106,6 @@ export default {
       }
     }
     const validateConfirmPassword = (rule, value, callback) => {
-      console.log(value)
-      console.log(this.loginForm.password)
       if (value !== this.loginForm.password) {
         callback(new Error('The two passwords that you entered do not match'))
       } else {
@@ -124,16 +121,16 @@ export default {
       },
       loginRules: {
         phone: [
-          { required: true, message: 'Please enter your phone number', trigger: 'blur' },
-          { validator: validatePhone, trigger: 'blur' }
+          { required: true, validator: validatePhone, trigger: 'blur' },
+          { min: 11, max: 11, message: 'The length of the phone number must be 11', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: 'Please enter your new password', trigger: 'blur' },
-          { validator: validatePassword, trigger: 'blur' }
+          { required: true, validator: validatePassword, trigger: 'blur' },
+          { min: 8, max: 18, message: 'The length of the password must be 8-18', trigger: 'blur' }
         ],
         confirmPassword: [
-          { required: true, message: 'Please enter your new password again', trigger: 'blur' },
-          { validator: validateConfirmPassword, trigger: 'blur' }
+          { required: true, validator: validateConfirmPassword, trigger: 'blur' },
+          { min: 8, max: 18, message: 'The length of the password must be 8-18', trigger: 'blur' }
         ]
       },
       loading: false,
@@ -156,8 +153,8 @@ export default {
       this.$router.push({ path: '/login' })
     },
     handleSubmit() {
-      if (this.loginForm.phone !== '' && this.loginForm.password !== '' && this.loginForm.confirmPassword !== '') {
-        this.loading = true
+      if (validPhoneNum(this.loginForm.phone) && validPassword(this.loginForm.password) && validEqual(this.loginForm.confirmPassword, this.loginForm.password)) {
+        this.loginForm.showVcode = true
       }
     },
     success(msg) {

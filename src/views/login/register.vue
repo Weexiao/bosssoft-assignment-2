@@ -86,17 +86,17 @@
         </span>
       </el-form-item>
 
-      <el-form-item prop="password">
+      <el-form-item prop="confirmPassword">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
         <el-input
           :key="passwordType"
-          ref="password"
+          ref="confirmPassword"
           v-model="regisForm.confirmPassword"
           :type="passwordType"
           placeholder="Please enter your password again"
-          name="password"
+          name="confirmPassword"
           tabindex="2"
           auto-complete="on"
         />
@@ -127,7 +127,7 @@
 
 <script>
 import Vcode from 'vue-puzzle-vcode'
-import { validUsername, validPhoneNum, validTencentNum, validEmail, validPassword } from '@/utils/validate'
+import { validUsername, validPhoneNum, validTencentNum, validEmail, validPassword, validEqual } from '@/utils/validate'
 
 export default {
   name: 'Register',
@@ -256,7 +256,7 @@ export default {
       this.$router.push({ path: '/login' })
     },
     handleSubmit() {
-      if (this.regisForm.username !== '' && this.regisForm.phone !== '' && this.regisForm.TencentNum !== '' && this.regisForm.email !== '' && this.regisForm.password !== '' && this.regisForm.confirmPassword !== '') {
+      if (validUsername(this.regisForm.username) && validPhoneNum(this.regisForm.phone) && validTencentNum(this.regisForm.TencentNum) && validEmail(this.regisForm.email) && validPassword(this.regisForm.password) && validEqual(this.regisForm.password, this.regisForm.confirmPassword)) {
         this.regisForm.showVcode = true // 通过了验证
       }
     },
