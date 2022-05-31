@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">Login</h3>
       </div>
 
       <el-form-item prop="username">
@@ -32,8 +32,9 @@
           :type="passwordType"
           placeholder="Password"
           name="password"
-          tabindex="2"
+          tabindex="3"
           auto-complete="on"
+          maxlength="20"
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
@@ -44,8 +45,15 @@
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+        <span>
+          <span>Forgot your password?</span>
+          <el-button type="text" @click.native.prevent="showForgotPwd">Click here</el-button>
+        </span>
+        <br>
+        <span>
+          <span>Don't have an account?</span>
+          <el-button type="text" @click.native.prevent="showRegister">Click here</el-button>
+        </span>
       </div>
 
     </el-form>
@@ -54,6 +62,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { validPassword } from '@/utils/validate'
 
 export default {
   name: 'Login',
@@ -66,16 +75,16 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (!validPassword(value)) {
+        callback(new Error('Password must contain at least numbers and English, with a length of 8-18'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -106,8 +115,10 @@ export default {
       })
     },
     handleLogin() {
+      // 登录验证
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          console.log('submit success!!')
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
@@ -120,6 +131,14 @@ export default {
           return false
         }
       })
+    },
+    showForgotPwd() {
+      console.log('showForgotPwd')
+      this.$router.push({ path: '/forgot-password' })
+    },
+    showRegister() {
+      console.log('showRegister')
+      this.$router.push({ path: '/register' })
     }
   }
 }
