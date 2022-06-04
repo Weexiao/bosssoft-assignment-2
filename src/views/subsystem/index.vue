@@ -1,6 +1,6 @@
 <template>
   <div class="tab-container">
-    <el-tag>mounted times ：{{ createdTimes }}</el-tag>
+    <el-tag><a @click="dialogNewVisiable=true">New</a></el-tag>
     <el-alert :closable="false" style="width:200px;display:inline-block;vertical-align: middle;margin-left:30px;" title="Tab with keep-alive" type="success" />
     <el-tabs v-model="activeName" style="margin-top:15px;" type="border-card">
       <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
@@ -9,15 +9,20 @@
         </keep-alive>
       </el-tab-pane>
     </el-tabs>
+
+    <el-dialog :visible.sync="dialogNewVisiable">
+      <NewSystem />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import TabPane from './components/TabPane'
+import NewSystem from './components/newSystem'
 
 export default {
   name: 'Subsystem',
-  components: { TabPane },
+  components: { TabPane, NewSystem },
   data() {
     return {
       tabMapOptions: [
@@ -27,7 +32,8 @@ export default {
         { label: 'Eurozone', key: 'EU' }
       ],
       activeName: 'CN',
-      createdTimes: 0
+      createdTimes: 0,
+      dialogNewVisiable: false
     }
   },
   watch: {

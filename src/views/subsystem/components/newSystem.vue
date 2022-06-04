@@ -2,7 +2,7 @@
   <div class="edit-system">
     <el-form :model="form" :rules="loginRules" auto-complete="on" label-position="left">
       <div class="title-container">
-        <h3 class="title">Edit System</h3>
+        <h3 class="title">New System</h3>
       </div>
 
       <el-form-item label="Title" :label-width="formLabelWidth" prop="Title">
@@ -49,7 +49,7 @@
 import { validUsername, validPositiveInteger } from '@/utils/validate'
 
 export default {
-  name: 'EditSystem',
+  name: 'NewSystem',
   data() {
     const validateTitle = (rule, value, callback) => {
       if (!value) {
@@ -110,3 +110,4 @@ export default {
 <style scoped>
 
 </style>
+
