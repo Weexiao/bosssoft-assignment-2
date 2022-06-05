@@ -13,6 +13,8 @@
 > 用户控制有关页面主要有控制页面、新增用户、修改用户、删除用户
 > 
 > 其余控制页面也大致相仿
+> 
+> 具体页面展示可见 http://114.115.178.208:9528
 
 ## Build Setup
 
@@ -29,8 +31,6 @@ npm install
 # develop
 npm run dev
 ```
-
-开启页面 http://localhost:9528
 
 ## Build
 
