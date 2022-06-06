@@ -159,3 +159,13 @@ export function validNegativeInteger(str) {
 export function validEqual(str1, str2) {
   return str1 === str2
 }
+
+/**
+ * 检验是否为年龄
+ * @param {string} str
+ * @returns {Boolean}
+ */
+export function validAge(str) {
+  const pattern = /^((1[0-5])|[1-9])?\d$/
+  return pattern.test(str)
+}

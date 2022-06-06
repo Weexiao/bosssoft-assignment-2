@@ -1,8 +1,12 @@
 const Mock = require('mockjs')
 
-const data = Mock.mock({
-  'items|30': [{
-    id: '@id',
+const List = []
+const count = 100
+
+for (let i = 0; i < count; i++) {
+  List.push(Mock.mock({
+    id: '@increment',
+    'status|1': ['editor', 'admin'],
     name: '@name',
     department: '@department',
     age: '@integer(18, 60)',
@@ -10,24 +14,35 @@ const data = Mock.mock({
     date: '@date',
     salary: '@float(1000, 10000, 2, 2)',
     position: '@position',
-    title: '@sentence(10, 20)',
-    'status|1': ['normal', 'admin', 'deleted'],
-    display_time: '@datetime',
-    pageviews: '@integer(300, 5000)'
-  }]
-})
+    'createTime': '@datetime',
+    'updateTime': '@datetime'
+  }))
+}
 
 module.exports = [
   {
     url: '/vue-admin-template/table/list',
     type: 'get',
     response: config => {
-      const items = data.items
+      const { status, name, page = 1, limit = 20, sort } = config.query
+
+      let mockList = List.filter(item => {
+        if (status && item.status !== status) return false
+        if (name && item.name.indexOf(name) < 0) return false
+        return true
+      })
+
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
       return {
         code: 20000,
         data: {
-          total: items.length,
-          items: items
+          total: mockList.length,
+          items: pageList
         }
       }
     }
