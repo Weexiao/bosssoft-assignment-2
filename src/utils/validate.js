@@ -11,7 +11,7 @@ export function isExternal(path) {
  * @returns {Boolean}
  */
 export function validUsername(str) {
-  var pattern = /[A-Za-z0-9_\-\u4e00-\u9fa5]+/
+  var pattern = /^[A-Za-z]+$/
   // const valid_map = ['admin', 'editor', 'Jisoo']
   return pattern.test(str)
 }
