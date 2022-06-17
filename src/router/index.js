@@ -62,44 +62,9 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: 'Dashboard', icon: 'dashboard', roles: ['admin', 'editor'] }
     }]
   }
-
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/table',
-  //   name: 'Example',
-  //   meta: { title: 'Example', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'Table',
-  //       component: () => import('@/views/table/index'),
-  //       meta: { title: 'Table', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'Tree',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: 'Tree', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-  //
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: 'Form', icon: 'form' }
-  //     }
-  //   ]
-  // }
 ]
 
 /**
@@ -115,7 +80,7 @@ export const asyncRoutes = [
     meta: {
       title: 'UserCenter',
       icon: 'nested',
-      roles: ['admin', 'editor']
+      roles: ['admin']
     },
     children: [
       {
@@ -125,22 +90,47 @@ export const asyncRoutes = [
         meta: { title: 'UserControl', roles: ['admin'] }
       },
       {
-        path: 'subsystem',
-        component: () => import('@/views/subsystem/index'),
-        name: 'SubSystem',
-        meta: { title: 'SubSystemControl', roles: ['editor'] }
+        path: 'permission',
+        component: () => import('@/views/permissioncontrol/index'),
+        name: 'PermissionControl',
+        meta: { title: 'PermissionControl', roles: ['admin'] }
       },
       {
         path: 'roles',
         component: () => import('@/views/rolescontrol/index'),
         name: 'RolesControl',
         meta: { title: 'RolesControl', roles: ['admin'] }
+      }
+      // {
+      //   path: 'group',
+      //   component: () => import('@/views/groupcontrol/index'),
+      //   name: 'GroupControl',
+      //   meta: { title: 'GroupControl', roles: ['admin'] }
+      // }
+    ]
+  },
+
+  {
+    path: '/workflow',
+    component: Layout,
+    name: 'WorkFlow',
+    meta: {
+      title: 'WorkFlow',
+      icon: 'nested',
+      roles: ['admin', 'editor']
+    },
+    children: [
+      {
+        path: 'group',
+        component: () => import('@/views/groupcontrol/index'),
+        name: 'GroupControl',
+        meta: { title: 'NewArticle', roles: ['admin', 'editor'] }
       },
       {
         path: 'group',
         component: () => import('@/views/groupcontrol/index'),
         name: 'GroupControl',
-        meta: { title: 'GroupControl', roles: ['admin'] }
+        meta: { title: 'ArticleControl', roles: ['admin', 'editor'] }
       }
     ]
   },
