@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, register, forgotPassword } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -106,6 +106,34 @@ const actions = {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
       resolve()
+    })
+  },
+
+  // register
+  register({ commit }, userInfo) {
+    const { username, password, email, phone, qq } = userInfo
+    return new Promise((resolve, reject) => {
+      register({ username: username.trim(), password: password, email: email.trim(), phone: phone.trim(), qq: qq.trim() }).then(response => {
+        // eslint-disable-next-line no-unused-vars
+        const { data } = response
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  // forget password
+  forgetPassword({ commit }, userInfo) {
+    const { phone, password } = userInfo
+    return new Promise((resolve, reject) => {
+      forgotPassword({ phone: phone.trim(), password: password }).then(response => {
+        // eslint-disable-next-line no-unused-vars
+        const { data } = response
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
     })
   }
 }

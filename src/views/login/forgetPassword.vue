@@ -159,31 +159,22 @@ export default {
     },
     success(msg) {
       this.loginForm.showVcode = false // 隐藏验证码
-      // this.$refs.loginForm.validate((valid) => {
-      //   if (valid) {
-      //     this.loading = true
-      //     this.$http.post('/api/user/forgetPassword', this.loginForm).then(res => {
-      //       this.loading = false
-      //       if (res.data.code === 0) {
-      //         this.$message({
-      //           type: 'success',
-      //           message: 'Reset password successfully'
-      //         })
-      //         this.$router.push({ path: '/login' })
-      //       } else {
-      //         this.$message({
-      //           type: 'error',
-      //           message: res.data.message
-      //         })
-      //       }
-      //     })
-      //   }
-      // })
-      this.$message({
-        type: 'success',
-        message: 'Reset password successfully'
+      this.$store.dispatch('user/forgetPassword', {
+        phone: this.loginForm.phone,
+        password: this.loginForm.password,
+        vcode: msg
+      }).then(() => {
+        this.$message({
+          message: 'Reset password successfully',
+          type: 'success'
+        })
+        this.$router.push({ path: '/login' })
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: 'error'
+        })
       })
-      this.$router.push({ path: '/login' })
     },
     close() {
       this.loginForm.showVcode = false // 隐藏验证码

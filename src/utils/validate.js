@@ -87,7 +87,7 @@ export function validInteger(str) {
  * @returns {Boolean}
  */
 export function validTencentNum(str) {
-  const pattern = /[1-9]([0-9]{5,11})/
+  const pattern = /^[1-9][0-9]{5,11}$/
   return pattern.test(str)
 }
 

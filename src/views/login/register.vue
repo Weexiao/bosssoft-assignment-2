@@ -36,15 +36,15 @@
         />
       </el-form-item>
 
-      <el-form-item prop="TencentNum">
+      <el-form-item prop="qq">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="TencentNum"
-          v-model="regisForm.TencentNum"
+          ref="qq"
+          v-model="regisForm.qq"
           placeholder="QQ"
-          name="TencentNum"
+          name="qq"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -162,7 +162,7 @@ export default {
         callback(new Error('Please enter your tencent number'))
       } else {
         if (!validTencentNum(value)) {
-          callback(new Error('QQ number must be 5-10 digits'))
+          callback(new Error('QQ number must be 5-11 digits'))
         } else {
           callback()
         }
@@ -205,7 +205,7 @@ export default {
       regisForm: {
         username: '',
         phone: '',
-        TencentNum: '',
+        qq: '',
         email: '',
         password: '',
         confirmPassword: '',
@@ -220,7 +220,7 @@ export default {
           { required: true, message: 'Please enter your phone number', trigger: 'blur' },
           { validator: validatePhoneNum, trigger: 'blur' }
         ],
-        TencentNum: [
+        qq: [
           { required: true, message: 'Please enter your Tencent number', trigger: 'blur' },
           { validator: validateTencentNum, trigger: 'blur' }
         ],
@@ -256,37 +256,29 @@ export default {
       this.$router.push({ path: '/login' })
     },
     handleSubmit() {
-      if (validUsername(this.regisForm.username) && validPhoneNum(this.regisForm.phone) && validTencentNum(this.regisForm.TencentNum) && validEmail(this.regisForm.email) && validPassword(this.regisForm.password) && validEqual(this.regisForm.password, this.regisForm.confirmPassword)) {
+      if (validUsername(this.regisForm.username) && validPhoneNum(this.regisForm.phone) && validTencentNum(this.regisForm.qq) && validEmail(this.regisForm.email) && validPassword(this.regisForm.password) && validEqual(this.regisForm.password, this.regisForm.confirmPassword)) {
         this.regisForm.showVcode = true // 通过了验证
       }
     },
     success(msg) {
       this.regisForm.showVcode = false // 隐藏验证码
-      // this.$refs.loginForm.validate((valid) => {
-      //   if (valid) {
-      //     this.loading = true
-      //     this.$http.post('/api/user/forgetPassword', this.loginForm).then(res => {
-      //       this.loading = false
-      //       if (res.data.code === 0) {
-      //         this.$message({
-      //           type: 'success',
-      //           message: 'Reset password successfully'
-      //         })
-      //         this.$router.push({ path: '/login' })
-      //       } else {
-      //         this.$message({
-      //           type: 'error',
-      //           message: res.data.message
-      //         })
-      //       }
-      //     })
-      //   }
-      // })
-      this.$message({
-        type: 'success',
-        message: 'Reset password successfully'
+      this.$store.dispatch('user/register', this.regisForm).then(() => {
+        this.$message({
+          message: 'Register success',
+          type: 'success'
+        })
+        this.$router.push({ path: '/login' })
+      }).catch(err => {
+        this.$message({
+          message: err.message,
+          type: 'error'
+        })
       })
-      this.$router.push({ path: '/login' })
+      // this.$message({
+      //   type: 'success',
+      //   message: 'Reset password successfully'
+      // })
+      // this.$router.push({ path: '/login' })
     },
     close() {
       this.regisForm.showVcode = false // 隐藏验证码

@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 
-
 export function login(data) {
   return request({
     url: '/user/login',
@@ -21,5 +20,21 @@ export function logout() {
   return request({
     url: '/user/logout',
     method: 'post'
+  })
+}
+
+export function register(data) {
+  return request({
+    url: '/user/register',
+    method: 'post',
+    data
+  })
+}
+
+export function forgotPassword(data) {
+  return request({
+    url: '/user/forget-password',
+    method: 'post',
+    data
   })
 }
