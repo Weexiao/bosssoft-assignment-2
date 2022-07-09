@@ -1,40 +1,40 @@
-import request from '@/utils/request'
+import http from '@/utils/request'
 
-export function login(data) {
-  return request({
-    url: '/user/login',
-    method: 'post',
-    data
-  })
+/**
+ * @description 用户登录
+ * @returns
+ */
+export async function login(data) {
+  return await http.login('/user/login', data)
 }
 
-export function getInfo(token) {
-  return request({
-    url: '/user/detail',
-    method: 'post',
-    params: { token }
-  })
+/**
+ * @description 获取用户信息和权限信息
+ * @returns
+ */
+export async function getInfo() {
+  return await http.get('/sysUserConsumer/sysUser/getInfo')
 }
 
-export function logout() {
-  return request({
-    url: '/user/logout',
-    method: 'post'
-  })
+/**
+ * @description 用户登出
+ * @returns
+ */
+export async function logout(param) {
+  return await http.post('/sysUserConsumer/sysUser/logout', param)
 }
 
-export function register(data) {
-  return request({
-    url: '/user/register',
-    method: 'post',
-    data
-  })
+export async function register(data) {
+  return await http.post('/userConsumer/user/register', data)
 }
 
-export function forgotPassword(data) {
-  return request({
-    url: '/user/forget-password',
-    method: 'post',
-    data
-  })
+export async function forgotPassword(data) {
+  return await http.post('/userConsumer/user/forgotPassword', data)
+}
+
+/**
+ * 获取菜单数据
+ */
+export async function getMenuList() {
+  return await http.get('/sysUserConsumer/sysUser/getMenuList')
 }

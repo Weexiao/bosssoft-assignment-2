@@ -35,6 +35,8 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import { getToken, removeToken, clearStorage } from '@/utils/auth'
+import { logout } from '@/api/user'
 
 export default {
   components: {
@@ -52,8 +54,24 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      // 提示是否退出系统
+      const confirm = await this.$myconfirm('Are you sure to logout?')
+
+      if (confirm) {
+        // 请求参数
+        const params = { token: getToken() }
+        // 发送请求
+        const res = await logout(params)
+        // 判断是否成功
+        if (res.success) {
+          // 清空token
+          removeToken()
+          // 清空localStorage
+          clearStorage()
+          // 跳转到登录页面
+          window.location.href = '/login'
+        }
+      }
     }
   }
 }

@@ -121,9 +121,17 @@ export default {
           console.log('submit success!!')
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
+            this.$message({
+              message: 'Login Success',
+              type: 'success'
+            })
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {
+            this.$message({
+              message: 'Login Failed, Please Try Again',
+              type: 'error'
+            })
             this.loading = false
           })
         } else {
