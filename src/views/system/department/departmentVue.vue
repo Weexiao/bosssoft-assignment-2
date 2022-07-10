@@ -145,7 +145,7 @@ export default {
     return {
       // 选择所属部门属性
       parentDialog: {
-        title: 'Select the superior department',
+        title: 'Please select the superior department',
         visible: false,
         width: 300,
         height: 300
@@ -200,7 +200,7 @@ export default {
       if (res.success) {
         // 赋值
         this.treeList = res.data
-        console.log(this.treeList)
+        // console.log(this.treeList)
       }
     },
     /**
@@ -237,11 +237,11 @@ export default {
     async search() {
       // 发送查询请求
       const res = await departmentApi.getDepartmentList(this.searchModel)
-      console.log(this.searchModel)
+      // console.log(this.searchModel)
       // 判断是否存在数据
       if (res.success) {
         this.tableData = res.data
-        console.log(this.tableData)
+        // console.log(this.tableData)
       }
     },
     /**
