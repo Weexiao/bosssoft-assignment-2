@@ -28,6 +28,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_USERUID: (state, userId) => {
+    state.userId = userId
   }
 }
 
@@ -57,16 +60,21 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar } = data
+        const { roles, name, avatar, id } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
         }
 
+        // 将权限字段保存到sessionStorage中
+        sessionStorage.setItem('codeList', JSON.stringify(roles))
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        // commit('SET_INTRODUCTION', introduction)
+        // 将用户id保存到vuex中
+        commit('SET_USERUID', id)
         resolve(data)
       }).catch(error => {
         reject(error)

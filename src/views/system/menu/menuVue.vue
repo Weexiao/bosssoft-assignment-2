@@ -32,8 +32,8 @@
       <el-table-column prop="url" label="Url" align="center"></el-table-column>
       <el-table-column align="center">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="small" @click="editMenu(scope.row)">Edit</el-button>
-          <el-button type="danger" icon="el-icon-delete" size="small" @click="deleteMenu(scope.row)">Delete</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="editMenu(scope.row)">Edit</el-button>
+          <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteMenu(scope.row)">Delete</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -236,7 +236,7 @@ export default {
       if (res.success) {
         // 赋值
         this.parentMenuList = res.data
-        console.log(this.parentMenuList)
+        // console.log(this.parentMenuList)
       }
     },
     /**

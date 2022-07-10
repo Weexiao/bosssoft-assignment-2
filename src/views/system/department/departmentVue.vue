@@ -276,7 +276,7 @@ export default {
         this.$message.warning(result.message)
       } else {
         // 确认是否删除啊
-        const confirm = await this.$myconfirm('Are you sure to delete the department?')
+        const confirm = await this.$myconfirm('Are you sure to delete this department?')
         if (confirm) {
           // 发送删除请求
           const res = await departmentApi.deleteById({ id: row.id })
