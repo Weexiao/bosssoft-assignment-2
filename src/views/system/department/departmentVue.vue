@@ -14,7 +14,7 @@
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="search()">Search</el-button>
         <el-button icon="el-icon-refresh-right" @click="resetValue()">Refresh</el-button>
-        <el-button type="success" icon="el-icon-plus" @click="openAddWindow()">Add</el-button>
+        <el-button type="success" icon="el-icon-plus" @click="openAddWindow()" v-if="hasPermission('sys:department:add')">Add</el-button>
       </el-form-item>
     </el-form>
 
@@ -39,6 +39,7 @@
             type="primary"
             size="small"
             @click="handleEdit(scope.row)"
+            v-if="hasPermission('sys:department:edit')"
           >
             Edit
           </el-button>
@@ -47,6 +48,7 @@
             type="danger"
             size="small"
             @click="handleDelete(scope.row)"
+            v-if="hasPermission('sys:department:delete')"
           >
             Delete
           </el-button>

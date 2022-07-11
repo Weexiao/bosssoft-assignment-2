@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import { getToken, setToken, clearStorage, getTokenTime, setTokenTime, removeTokenTime } from '@/utils/auth'
 import qs from 'qs'
+import { refreshToken } from '@/api/user'
 
 // create an axios instance
 const service = axios.create({
@@ -11,11 +12,48 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
+/**
+ * 刷新token
+ */
+function refreshTokenInfo() {
+  const params = { token: getToken() }
+  return refreshToken(params).then(res => res)
+}
+
+// 定义变量，标识是否刷新token
+let isRefresh = false
+
 // request interceptor
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-    console.log(config)
+    // console.log(config)
+    const currentTime = new Date().getTime()
+    const expireTime = getTokenTime()
+    // 判断是否过期
+    if (expireTime > 0) {
+      const min = (expireTime - currentTime) / 1000 / 60
+      // 若离过期时间还差10分钟，则刷新token
+      if (min < 10) {
+        if (!isRefresh) {
+          isRefresh = true
+          return refreshTokenInfo().then(res => {
+            // 判断是否成功
+            if (res.success) {
+              setToken(res.data.token)
+              setTokenTime(res.data.expireTime)
+              config.headers.token = getToken()
+            }
+            return config
+          }).catch(error => {
+            console.log(error)
+          })
+            .finally(() => {
+              isRefresh = false
+            })
+        }
+      }
+    }
 
     if (store.getters.token) {
       // let each request carry token
@@ -27,7 +65,9 @@ service.interceptors.request.use(
   },
   error => {
     // do something with request error
-    console.log(error) // for debug
+    // console.log(error) // for debug
+    clearStorage()
+    removeTokenTime()
     return Promise.reject(error)
   }
 )

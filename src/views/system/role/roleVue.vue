@@ -14,7 +14,7 @@
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="search(pageNo, pageSize)">Search</el-button>
         <el-button icon="el-icon-refresh-right" @click="resetValue">Refresh</el-button>
-        <el-button type="success" icon="el-icon-plus" @click="openAddWindow">Add</el-button>
+        <el-button type="success" icon="el-icon-plus" @click="openAddWindow" v-if="hasPermission('sys:role:add')">Add</el-button>
       </el-form-item>
     </el-form>
     <!--数据表格-->
@@ -40,18 +40,21 @@
             type="primary"
             size="mini"
             @click="handleEdit(scope.row)"
+            v-if="hasPermission('sys:role:edit')"
           >Edit</el-button>
           <el-button
             icon="el-icon-delete"
             type="danger"
             size="mini"
             @click="handleDelete(scope.row)"
+            v-if="hasPermission('sys:role:delete')"
           >Delete</el-button>
           <el-button
             icon="el-icon-setting"
             type="primary"
             size="mini"
             @click="assignRole(scope.row)"
+            v-if="hasPermission('sys:role:edit')"
           >Assign Role</el-button>
         </template>
       </el-table-column>

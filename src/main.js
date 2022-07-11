@@ -20,6 +20,8 @@ import myconfirm from '@/utils/myconfirm'
 import resetForm from '@/utils/resetForm'
 // 导入快速复制对象工具
 import objCopy from '@/utils/objCopy'
+// 导入按钮权限判断
+import hasPermission from '@/permission/index'
 
 /**
  * If you don't want to use mock-server
@@ -43,6 +45,7 @@ Vue.use(ElementUI, { locale })
 Vue.prototype.$myconfirm = myconfirm
 Vue.prototype.$resetForm = resetForm
 Vue.prototype.$objCopy = objCopy
+Vue.prototype.hasPermission = hasPermission
 
 Vue.config.productionTip = false
 

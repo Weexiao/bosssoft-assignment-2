@@ -1,7 +1,7 @@
 <template>
   <el-main>
     <!--新增按钮-->
-    <el-button type="success" icon="el-icon-plus" @click="openAddWindow">New</el-button>
+    <el-button type="success" icon="el-icon-plus" @click="openAddWindow" v-if="hasPermission('sys:menu:add')">New</el-button>
     <!--数据表格-->
     <el-table
       style="margin-top: 10px"
@@ -32,8 +32,8 @@
       <el-table-column prop="url" label="Url" align="center"></el-table-column>
       <el-table-column align="center">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="editMenu(scope.row)">Edit</el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteMenu(scope.row)">Delete</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="editMenu(scope.row)" v-if="hasPermission('sys:menu:edit')">Edit</el-button>
+          <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteMenu(scope.row)" v-if="hasPermission('sys:menu:add')">Delete</el-button>
         </template>
       </el-table-column>
     </el-table>

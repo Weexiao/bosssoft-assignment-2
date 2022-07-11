@@ -1,6 +1,6 @@
 import { login, logout, getInfo, register, forgotPassword } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
+import { getToken, setToken, removeToken, setTokenTime } from '@/utils/auth'
+import router, { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
@@ -40,9 +40,10 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { token } = response
+        const { token, expireTime } = response
         commit('SET_TOKEN', token)
         setToken(token)
+        setTokenTime(expireTime)
         resolve()
       }).catch(error => {
         reject(error)
