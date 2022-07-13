@@ -137,6 +137,8 @@
 import departmentApi from '@/api/department'
 // 导入对话框组件
 import SystemDialog from '@/components/system/SystemDialog.vue'
+// 导入数据校验
+import { validChinese, validPhoneNum, validPositiveInteger } from '@/utils/validate'
 
 export default {
   name: 'DepartmentVue',
@@ -144,6 +146,39 @@ export default {
     SystemDialog
   },
   data() {
+    const validateChinese = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please enter the department name'))
+      } else {
+        if (!validChinese(value)) {
+          callback(new Error('Please enter the Chinese'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const validatePhoneNum = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please enter the phone number'))
+      } else {
+        if (!validPhoneNum(value)) {
+          callback(new Error('Please enter the correct phone number'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const validatePositiveInteger = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please enter the order number'))
+      } else {
+        if (!validPositiveInteger(value)) {
+          callback(new Error('Please enter the correct order number'))
+        } else {
+          callback()
+        }
+      }
+    }
     return {
       // 选择所属部门属性
       parentDialog: {
@@ -180,8 +215,21 @@ export default {
       },
       // 表单验证规则
       rules: {
-        parentName: [{ required: true, trigger: 'change', message: 'Please select the superior department' }],
-        departmentName: [{ required: true, trigger: 'blur', message: 'Please enter the department name' }]
+        parentName: [
+          { required: true, trigger: 'change', validator: validateChinese }
+        ],
+        departmentName: [
+          { required: true, trigger: 'blur', validator: validateChinese }
+        ],
+        phone: [
+          { required: false, trigger: 'blur', validator: validatePhoneNum }
+        ],
+        address: [
+          { required: false, trigger: 'blur', validator: validateChinese }
+        ],
+        orderNum: [
+          { required: false, trigger: 'blur', validator: validatePositiveInteger }
+        ]
       }
     }
   },

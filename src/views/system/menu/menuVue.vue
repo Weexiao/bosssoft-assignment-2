@@ -162,6 +162,8 @@ import SystemDialog from '@/components/system/SystemDialog.vue'
 // import { elementIcons } from '@/utils/icons'
 // 导入icon选择器
 import MyIcon from '@/components/system/MyIcon'
+// 导入数据校验
+import { validChinese, validEnglish, validPositiveInteger } from '@/utils/validate'
 
 export default {
   name: 'MenuVue',
@@ -170,6 +172,39 @@ export default {
     MyIcon
   },
   data() {
+    const validateChinese = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please enter correct name'))
+      } else {
+        if (!validChinese(value)) {
+          callback(new Error('Please enter the Chinese'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const validateEnglish = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please enter correct name'))
+      } else {
+        if (!validEnglish(value)) {
+          callback(new Error('Please enter the English'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const validatePositiveInteger = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please enter correct number'))
+      } else {
+        if (!validPositiveInteger(value)) {
+          callback(new Error('Please enter the positive integer'))
+        } else {
+          callback()
+        }
+      }
+    }
     return {
       // 图标列表
       iconList: [],
@@ -212,12 +247,13 @@ export default {
       },
       rules: {
         type: [{ required: true, message: 'Please select a type', trigger: 'change' }],
-        parentName: [{ required: true, message: 'Please select a superior', trigger: 'change' }],
-        label: [{ required: true, message: 'Please enter a label', trigger: 'blur' }],
-        name: [{ required: true, message: 'Please enter a name', trigger: 'blur' }],
+        parentName: [{ required: true, validator: validateChinese, trigger: 'change' }],
+        label: [{ required: true, validator: validateChinese, trigger: 'blur' }],
+        name: [{ required: true, validator: validateEnglish, trigger: 'blur' }],
         path: [{ required: true, message: 'Please enter a path', trigger: 'blur' }],
         url: [{ required: true, message: 'Please enter a url', trigger: 'blur' }],
-        code: [{ required: true, message: 'Please enter a code', trigger: 'blur' }]
+        code: [{ required: true, message: 'Please enter a code', trigger: 'blur' }],
+        orderNum: [{ required: false, validator: validatePositiveInteger, trigger: 'blur' }]
       },
       menuList: [], // 菜单列表
       tableHeight: 0 // 表格高度

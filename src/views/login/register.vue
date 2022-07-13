@@ -20,6 +20,21 @@
         />
       </el-form-item>
 
+      <el-form-item prop="realName">
+        <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span>
+        <el-input
+          ref="realName"
+          v-model="regisForm.realName"
+          placeholder="Real Name"
+          name="realName"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
+      </el-form-item>
+
       <el-form-item prop="phone">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -204,6 +219,7 @@ export default {
     return {
       regisForm: {
         username: '',
+        realName: '',
         phone: '',
         qq: '',
         email: '',
@@ -215,6 +231,9 @@ export default {
         username: [
           { required: true, message: 'Please enter your username', trigger: 'blur' },
           { validator: validateUsername, trigger: 'blur' }
+        ],
+        realName: [
+          { required: true, message: 'Please enter your real name', trigger: 'blur' }
         ],
         phone: [
           { required: true, message: 'Please enter your phone number', trigger: 'blur' },

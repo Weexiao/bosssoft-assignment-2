@@ -1,6 +1,6 @@
 import { login, logout, getInfo, register, forgotPassword } from '@/api/user'
 import { getToken, setToken, removeToken, setTokenTime } from '@/utils/auth'
-import router, { resetRouter } from '@/router'
+import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
@@ -120,9 +120,9 @@ const actions = {
 
   // register
   register({ commit }, userInfo) {
-    const { username, password, email, phone, qq } = userInfo
+    const { username, realName, password, email, phone, qq } = userInfo
     return new Promise((resolve, reject) => {
-      register({ username: username.trim(), password: password, email: email.trim(), phone: phone.trim(), qq: qq.trim() }).then(response => {
+      register({ username: username.trim(), realName: realName.trim(), password: password, email: email.trim(), phone: phone.trim(), qq: qq.trim() }).then(response => {
         // eslint-disable-next-line no-unused-vars
         const { data } = response
         resolve()
@@ -134,9 +134,9 @@ const actions = {
 
   // forget password
   forgetPassword({ commit }, userInfo) {
-    const { phone, password } = userInfo
+    const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      forgotPassword({ phone: phone.trim(), password: password }).then(response => {
+      forgotPassword({ username: username.trim(), password: password }).then(response => {
         // eslint-disable-next-line no-unused-vars
         const { data } = response
         resolve()

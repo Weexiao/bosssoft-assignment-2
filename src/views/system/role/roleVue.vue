@@ -133,6 +133,8 @@ import roleApi from '@/api/role'
 import SystemDialog from '@/components/system/SystemDialog'
 // 导入叶节点判断
 import leafUtils from '@/utils/leaf'
+// 导入数据校验
+import { validChinese } from '@/utils/validate'
 
 export default {
   name: 'RoleVue',
@@ -140,6 +142,17 @@ export default {
     SystemDialog
   },
   data() {
+    const validateChinese = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please enter correct name'))
+      } else {
+        if (!validChinese(value)) {
+          callback(new Error('Please enter the Chinese'))
+        } else {
+          callback()
+        }
+      }
+    }
     return {
       // 分配权限窗口属性
       assignDialog: {
@@ -174,7 +187,7 @@ export default {
           { required: true, message: 'Please enter role code', trigger: 'blur' }
         ],
         roleName: [
-          { required: true, message: 'Please enter role name', trigger: 'blur' }
+          { required: true, validator: validateChinese, trigger: 'blur' }
         ]
       },
       // 添加和修改角色窗口属性

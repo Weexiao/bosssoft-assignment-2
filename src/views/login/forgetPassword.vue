@@ -6,15 +6,15 @@
       </div>
 
       <!--找回密码-->
-      <el-form-item prop="phone">
+      <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="phone"
-          v-model="loginForm.phone"
-          placeholder="Phone"
-          name="phone"
+          ref="username"
+          v-model="loginForm.username"
+          placeholder="Username"
+          name="username"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -81,8 +81,7 @@
 </template>
 
 <script>
-import { validEqual, validPhoneNum } from '@/utils/validate'
-import { validPassword } from '@/utils/validate'
+import { validEqual, validUsername, validPassword } from '@/utils/validate'
 import Vcode from 'vue-puzzle-vcode'
 
 export default {
@@ -91,9 +90,9 @@ export default {
     Vcode
   },
   data() {
-    const validatePhone = (rule, value, callback) => {
-      if (!validPhoneNum(value)) {
-        callback(new Error('Please enter the correct phone number'))
+    const validateUsername = (rule, value, callback) => {
+      if (!validUsername(value)) {
+        callback(new Error('Please enter the correct user name'))
       } else {
         callback()
       }
@@ -114,15 +113,14 @@ export default {
     }
     return {
       loginForm: {
-        phone: '',
+        username: '',
         showVcode: false, // 是否显示验证码
         password: '',
         confirmPassword: ''
       },
       loginRules: {
-        phone: [
-          { required: true, validator: validatePhone, trigger: 'blur' },
-          { min: 11, max: 11, message: 'The length of the phone number must be 11', trigger: 'blur' }
+        username: [
+          { required: true, validator: validateUsername, trigger: 'blur' }
         ],
         password: [
           { required: true, validator: validatePassword, trigger: 'blur' },
@@ -153,14 +151,14 @@ export default {
       this.$router.push({ path: '/login' })
     },
     handleSubmit() {
-      if (validPhoneNum(this.loginForm.phone) && validPassword(this.loginForm.password) && validEqual(this.loginForm.confirmPassword, this.loginForm.password)) {
+      if (validUsername(this.loginForm.username) && validPassword(this.loginForm.password) && validEqual(this.loginForm.confirmPassword, this.loginForm.password)) {
         this.loginForm.showVcode = true
       }
     },
     success(msg) {
       this.loginForm.showVcode = false // 隐藏验证码
       this.$store.dispatch('user/forgetPassword', {
-        phone: this.loginForm.phone,
+        username: this.loginForm.username,
         password: this.loginForm.password,
         vcode: msg
       }).then(() => {

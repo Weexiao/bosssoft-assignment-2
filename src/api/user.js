@@ -29,7 +29,7 @@ export async function register(data) {
 }
 
 export async function forgotPassword(data) {
-  return await http.post('/userConsumer/user/forgotPassword', data)
+  return await http.put('/userConsumer/user/updatePassword', data)
 }
 
 /**

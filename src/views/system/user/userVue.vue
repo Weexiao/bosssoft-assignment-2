@@ -259,7 +259,7 @@ import departmentApi from '@/api/department'
 // 导入用户api脚本
 import userApi from '@/api/user'
 import SystemDialog from '@/components/system/SystemDialog'
-import { validPhoneNum } from '@/utils/validate'
+import { validPhoneNum, validChinese, validUsername, validPassword, validEmail } from '@/utils/validate'
 
 export default {
   name: 'UserVue',
@@ -271,6 +271,50 @@ export default {
       } else {
         if (!validPhoneNum(value)) {
           callback(new Error('Please enter the correct phone number'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const validateChinese = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('Please enter the Chinese'))
+      } else {
+        if (!validChinese(value)) {
+          callback(new Error('Please enter the correct Chinese'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const validateUsername = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('Please enter the username'))
+      } else {
+        if (!validUsername(value)) {
+          callback(new Error('Please enter the correct username'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const validatePassword = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('Please enter the password'))
+      } else {
+        if (!validPassword(value)) {
+          callback(new Error('Please enter the correct password'))
+        } else {
+          callback()
+        }
+      }
+    }
+    const validateEmail = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('Please enter the email'))
+      } else {
+        if (!validEmail(value)) {
+          callback(new Error('Please enter the correct email'))
         } else {
           callback()
         }
@@ -334,11 +378,29 @@ export default {
         gender: ''
       },
       rules: {
-        departmentName: [{ required: true, trigger: 'change', message: 'Please select the department' }],
-        realName: [{ required: true, trigger: 'blur', message: 'Please enter real name' }],
-        phone: [{ required: true, trigger: 'blur', message: 'Please enter phone number' }, { validator: validatePhone }],
-        username: [{ required: true, trigger: 'blur', message: 'Please enter username' }],
-        password: [{ required: true, trigger: 'blur', message: 'Please enter password' }],
+        departmentName: [
+          { required: true, trigger: 'change', message: 'Please select the department' },
+          { validator: validateChinese }
+        ],
+        realName: [
+          { required: true, trigger: 'blur', message: 'Please enter real name' },
+          { validator: validateUsername }
+        ],
+        phone: [
+          { required: true, trigger: 'blur', message: 'Please enter phone number' },
+          { min: 11, max: 11, validator: validatePhone }
+        ],
+        username: [
+          { required: true, trigger: 'blur', message: 'Please enter username' },
+          { validator: validateUsername }
+        ],
+        password: [
+          { required: true, trigger: 'blur', message: 'Please enter password' },
+          { min: 8, max: 18, validator: validatePassword }
+        ],
+        email: [
+          { required: true, trigger: 'blur', validator: validateEmail }
+        ],
         gender: [{ required: true, trigger: 'change', message: 'Please select the gender' }]
       },
       // 自定义点击次数，默认0次
