@@ -689,7 +689,7 @@ export default {
       // 清空查询条件
       this.searchModel = {}
       // 重新查询
-      this.searchModel(this.departmentId)
+      this.search(this.departmentId)
     },
     // 加减号点击事件
     openBtn(data) {
